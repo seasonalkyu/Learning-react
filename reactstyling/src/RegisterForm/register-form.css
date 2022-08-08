@@ -1,0 +1,86 @@
+/* CSS import로 문제를 해결했던 코드를 CSS modules로 해결하기 위해 코드를 수정하세요. */
+
+.formContainer {
+    min-width: 300px;
+  }
+  
+  .formFieldset {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  
+  .formFieldset:not(:first-of-type) {
+    border-bottom: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  
+  .formFieldset {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding: 12px 0;
+  }
+  
+  .formInput {
+    display: block;
+    padding: 4px;
+    border: 2px solid #dee2e6;
+    border-radius: 3px;
+  }
+  
+  .formLabel {
+    display: block;
+    padding-bottom: 8px;
+  
+    font-size: 0.8rem;
+    color: gray;
+  }
+  
+  .buttonContainer {
+    display: flex;
+  }
+  
+  .formButton {
+    flex: 1;
+    border: none;
+    padding: 4px;
+    color: white;
+    font-weight: 700;
+  
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .resetButton {
+    background: #adb5bd;
+  }
+  
+  .submitButton {
+    background: #37b24d;
+  }
+  
+  .formButton:not(:first-of-type) {
+    margin-left: 8px;
+  }
+  
+  .inputInvalid {
+    border: 2px solid #ff6b6b;
+  }
+  
+  .inputValid {
+    border: 2px solid #51cf66;
+  }
+  
+  .formError {
+    font-size: 0.8rem;
+    min-height: 20px;
+    margin-top: 4px;
+  }
+  
+  .textError {
+    color: #ff6b6b;
+  }
+  
+  .debug {
+    font-size: 0.75rem;
+  }
+  

@@ -1,39 +1,35 @@
-import React from 'react';
-// 필요한 모듈을 추가로 import하세요.
+import React, { useState } from 'react';
 import {
-    Routes,
-    BrowserRouter,
-    Route,
-    Link,
-    useLocation,
-    Navigate,
+  Link,
+  BrowserRouter,
+  Route,
+  useLocation,
+  Navigate,
+  Routes,
 } from 'react-router-dom';
 import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
+const users = [];
+
+// '/register' path를 추가하세요.
 export default function UserLogin() {
-    return (
-        <BrowserRouter>
-        <Routes>
-            {/* {' '} */}
-            {/* <Route exact path="/"> */}
-            {/* <HomePage /> */}
-            {/* {' '} */}
-            {/* </Route> */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />}/>
-            <Route path="/detail" element={<UserDetailPage />} />
-            
-            
-        </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/detail" element={<UserDetailPage/>}/>
+        <Route path="/register" element={<RegisterPage />}/>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-// HomePage 페이지 컴포넌트 구현
 function HomePage() {
   return (
     <div>
-      <h2>Home Page</h2>
+      <h2>Welcome to my homepage.</h2>
       <div>
         <Link to="/login">Login</Link>
       </div>
@@ -41,31 +37,54 @@ function HomePage() {
   );
 }
 
-// LoginPage 페이지 컴포넌트를 구현하세요.
+// users 리스트에 등록된 회원인 경우에만 회원의 상세한 정보를 띄우는 코드를 작성하세요.
 function LoginPage() {
+  const navigate = Navigate();
+  const handleSubmit = formData => {
+    const { email, password } = formData;
+    const foundUser = users.find(
+      user => user.email === email && user.password === password
+    );
+
+    //     if (foundUser) {
+    //       history.push(`/detail?email=${email}&password=${password}`);
+    //     }
+    //   };
+    if (foundUser) return;
+
+    navigate(`/detail?email=${email}&password=${password}`);
+  };
+
   return (
     <div>
       <h2>Login Page</h2>
-      <LoginForm />
+      <LoginForm onSubmit={handleSubmit} />
       <div>
-        <Link to="/">Back to home</Link>
+        <ul>
+          <li>
+            <Link to="/">Back to home</Link>
+          </li>
+
+          <li>
+            <Link to="/register">Register</Link>
+          </li>
+        </ul>
       </div>
     </div>
   );
 }
 
-// DetailPage 페이지 컴포넌트를 구현하세요.
 function UserDetailPage() {
-  // email, password 정보를
-  // query param 으로 받아와 저장하고, 정보를 보여주세요.
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+
   const email = searchParams.get('email');
   const password = searchParams.get('password');
 
   if (!email || !password) {
     return <Navigate to="/login" />;
   }
+
   return (
     <div>
       <h2>User Detail Page</h2>
@@ -75,43 +94,50 @@ function UserDetailPage() {
         <br />
         <strong>{password}</strong>
       </p>
-      {/* Link tag를 추가하세요. */}
-      <Link to="login">Logout</Link>
+      <Link to="/">Logout</Link>
+    </div>
+  );
+}
+
+// '/register'로 이동 시 RegisterForm으로 렌더링하는 코드를 작성하세요.
+function RegisterPage() {
+  const [error, setError] = useState('');
+  const navigate = Navigate();
+
+  const handleSubmit = formData => {
+    console.log('유저를 등록하세요.');
+    const { email } = formData;
+    const foundUser = users.find(user => user.email === email);
+
+    if (foundUser) {
+      return setError('이미 등록된 이메일입니다.');
+    }
+
+    users.push(formData);
+    navigate('/login');
+  };
+
+  return (
+    <div>
+      <h2>Register Page</h2>
+      <RegisterForm onSubmit={handleSubmit} />
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Back to home</Link>
+          </li>
+
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </ul>
+      </div>
+      <div>{error}</div>
     </div>
   );
 }
 
 /*
-https://velog.io/@kwonh/React-react-router-dom-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0
-BrowserRouter
-    history API를 사용해서 URL과 UI를 동기화
-
-Routes
-Switch가 Routes로 변경되었다
-exact 옵션이 삭제되고 기본으로 exact가 적용된다
-path를 상대경로로 지정한다
-
-Route
-컴포넌트의 속성에 설정된 URL과 현재 경로가 일치하면 
-해당하는 컴포넌트와 함수를 렌더링
-
-Link
-to 속성에 설정된 링크로 이동
-기록이 history 스택에 저장
-클릭 시 이동하는 url을 지정한다
-
-Switch
-자식 컴포넌트인 Route 또는 Redirect 중 매치되는 첫 번째 요소를 렌더링
-BrowserRouter와 다르게 하나의 매칭되는 요소 중 하나만 렌더링
-v6 부터 Routes로 통합
-
-Redirect
-v6부터 Routes로 통합
-*/
-
-/*
-useLocation()
-https://reactrouter.com/docs/en/v6/hooks/use-location
-
-
+history.push 대신 navigate 사용
+https://velog.io/@hemtory/ReactHistoryPushReplaceNavigate
 */

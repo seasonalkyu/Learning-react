@@ -6,11 +6,12 @@ import {
   useLocation,
   Navigate,
   Routes,
+  useNavigate,
 } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-const users = [];
+const users = [{email: "a@a.com", password: "1234"}];
 
 // '/register' path를 추가하세요.
 export default function UserLogin() {
@@ -39,7 +40,7 @@ function HomePage() {
 
 // users 리스트에 등록된 회원인 경우에만 회원의 상세한 정보를 띄우는 코드를 작성하세요.
 function LoginPage() {
-  const navigate = Navigate();
+    const navigate = useNavigate();
   const handleSubmit = formData => {
     const { email, password } = formData;
     const foundUser = users.find(
@@ -50,9 +51,8 @@ function LoginPage() {
     //       history.push(`/detail?email=${email}&password=${password}`);
     //     }
     //   };
-    if (foundUser) return;
-
-    navigate(`/detail?email=${email}&password=${password}`);
+    if (foundUser) 
+        return navigate(`/detail?email=${email}&password=${password}`);
   };
 
   return (
@@ -102,7 +102,7 @@ function UserDetailPage() {
 // '/register'로 이동 시 RegisterForm으로 렌더링하는 코드를 작성하세요.
 function RegisterPage() {
   const [error, setError] = useState('');
-  const navigate = Navigate();
+  const navigate = useNavigate();
 
   const handleSubmit = formData => {
     console.log('유저를 등록하세요.');

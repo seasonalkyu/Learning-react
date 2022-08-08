@@ -45,7 +45,7 @@ export default function RegisterForm({ onSubmit }) {
             placeholder="Enter password."
           />
         </fieldset>
-        <button onClick={submitForm}>Register</button>
+        <button onClick={submitForm}>Login</button>
       </form>
     </div>
   );

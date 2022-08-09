@@ -157,7 +157,67 @@ navigate('/home', {replace: true});
 */
 
 /*
-React 
+Router v5
+React Router의 render와 component
+https://zereight.tistory.com/976
+  <Route path="/dashboard" component="{Dashboard}" />
+Route 태그에서 내가 원하는 URI로 이동하면 어떤 컴포넌트를 렌더링할 것인가를 정할 수 있다
+  <Route 
+    path="/dashboard" 
+    component={() => <Dashboard isAuthed="{true}" />} 
+    />
+위와 같이 코딩하여 <Dashboard>에 prop을 넘길 수 있다
+그런데 컴포넌트를 렌더링할 때마다 unmount 후 새로운 컴포넌트를 마운팅하는 것이므로 
+component에 function을 넘기는 것은 추천되지 않는다
+따라서 render를 사용한다
+    <Route 
+    path="/dashboard" 
+    render={props => <Dashboard {...props} isAuthed="{true}" />} />
+reder는 불필요하게 컴포넌트를 재마운트하지 않는다
 
 
+https://nyang-in.tistory.com/228
+  function App() {
+    return (
+      <BrowserRouter>
+          <Route path="/home" render={() => <Home />} />
+          <Route path="/profile" render={() => <Profile />} />
+      </BrowserRouter>
+    );
+  }
+위 방식은 reder에 prop을 전달할 수 없다
+  function App() {
+    return (
+      <BrowserRouter>
+        <Route path="/home" render={(props) => <Home {...props}/>} />
+        <Route path="/profile" render={(props) => <Profile {...props}/>} />
+      </BrowserRouter>
+   );
+  }
+위 방식으로 render에 prop을 전달한다
+*/
+
+/*
+<Router>
+    <Switch>
+        <Route exact path="/">
+            <Portfolio />
+        </Route>
+        <Route path="/login">
+            <LoginForm />
+        </Route>
+        <Route path="/register" component={Register} />
+        <Redirect to="/notfound" />
+    </Switch>
+</Router>
+SPA 라우팅에 걸러지지 않는 링크는 Redirect를 사용했지만 path"*"
+를 이용해서 ~/, ~/login, ~/register 중 하나가 아니라면 /notfound로 이동하도록 코딩
+<Router>
+    <Routes>
+        <Route path="/" element={<Portfolio />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="*" element={<NotFound />} />
+    </Routes>
+</Router>
 */

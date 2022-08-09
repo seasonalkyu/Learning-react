@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-export default function RegisterForm({ onSubmit }) {
+export default function LoginForm({ onSubmit }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -9,7 +9,6 @@ export default function RegisterForm({ onSubmit }) {
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-
     const formData = {
       email,
       password,
@@ -22,7 +21,7 @@ export default function RegisterForm({ onSubmit }) {
     <div>
       <form>
         <fieldset>
-          <label htmlFor="email">Email</label>
+          <label htmlgor="email">Email</label>
           <input
             placeholder="Enter email."
             required
@@ -33,7 +32,6 @@ export default function RegisterForm({ onSubmit }) {
             autoComplete="off"
           />
         </fieldset>
-
         <fieldset>
           <label htmlFor="password">Password</label>
           <input
@@ -45,7 +43,9 @@ export default function RegisterForm({ onSubmit }) {
             placeholder="Enter password."
           />
         </fieldset>
-        <button onClick={submitForm}>Login</button>
+        <button type="submit" onClick={submitForm}>
+          Login
+        </button>
       </form>
     </div>
   );
